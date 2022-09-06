@@ -1,13 +1,25 @@
 const fs = require('fs');
 
 module.exports.getRandomUser=(req,res,next)=>{
-    res.send('Random user found!')
+    fs.readFile('data.json',(err,data)=>{
+        if(err)
+        {
+            res.send('Error occured while fetching random data!')
+        }
+        else{
+            const allData=JSON.parse(data)
+            const randomNumber = Math.floor(Math.random() * allData.length)
+            const randomData= allData.find(d=>Number(d.id)===randomNumber)
+            console.log(randomNumber)
+            res.send(randomData)
+        }
+    })
 }
 module.exports.getAllUser=(req,res,next)=>{
     fs.readFile('data.json',(err,data)=>{
         if(err)
         {
-            res.send("Error occured!")
+            res.send("Error occured while fetching all data!")
         }
     else{
         res.send(data)
