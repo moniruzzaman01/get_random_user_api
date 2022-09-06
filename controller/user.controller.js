@@ -8,9 +8,9 @@ module.exports.getRandomUser=(req,res,next)=>{
         }
         else{
             const allData=JSON.parse(data)
-            const randomNumber = Math.floor(Math.random() * allData.length)
-            const randomData= allData.find(d=>Number(d.id)===randomNumber)
-            console.log(randomNumber)
+            const idArray=allData.map(d=>d.id)
+            const randomNumber = Math.floor(Math.random() * (idArray.length))
+            const randomData= allData.find(d=>d.id===idArray[randomNumber])
             res.send(randomData)
         }
     })
