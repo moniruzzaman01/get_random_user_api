@@ -42,15 +42,15 @@ module.exports.updateUser = (req, res, next) => {
     } else {
       const allData = JSON.parse(data);
       const filtered = allData.filter((d) => d.id != req.body.id);
-      let find = allData.find((d) => d.id == req.params.id);
+      let find = allData.find((d) => d.id == req.body.id);
       find = req.body;
       const updatedData = [...filtered, find];
       updatedData.sort((a, b) => a.id - b.id);
-      fs.writeFile("data.json", JSON.stringify(updatedData), (err, data1) => {
+      fs.writeFile("data.json", JSON.stringify(updatedData), (err) => {
         if (err) {
           return res.send("error occured!");
         } else {
-          return res.send("User updated");
+          return res.send("User updated!");
         }
       });
     }
