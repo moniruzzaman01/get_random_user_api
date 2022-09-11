@@ -36,14 +36,12 @@ module.exports.saveUser = (req, res, next) => {
   });
 };
 module.exports.updateUser = (req, res, next) => {
-  // console.log(req.params.id);
-  // console.log(req.body);
   fs.readFile("data.json", (err, data) => {
     if (err) {
       return res.send("Error occured while fetching random data!");
     } else {
       const allData = JSON.parse(data);
-      const filtered = allData.filter((d) => d.id != req.params.id);
+      const filtered = allData.filter((d) => d.id != req.body.id);
       let find = allData.find((d) => d.id == req.params.id);
       find = req.body;
       const updatedData = [...filtered, find];
