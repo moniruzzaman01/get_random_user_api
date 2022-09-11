@@ -1,4 +1,3 @@
-const express = require("express");
 const fs = require("fs");
 
 module.exports.getRandomUser = (req, res, next) => {
@@ -24,7 +23,6 @@ module.exports.getAllUser = (req, res, next) => {
   });
 };
 module.exports.saveUser = (req, res, next) => {
-  console.log(req.body);
   fs.readFile("data.json", (err, data) => {
     if (err) {
       res.send("Error occured while fetching random data!");
@@ -44,5 +42,16 @@ module.exports.updateMultipleUser = (req, res, next) => {
   res.send("Updated multiple user!");
 };
 module.exports.deleteUser = (req, res, next) => {
-  res.send("Delete a user!");
+  console.log(req.query.id);
+  fs.readFile("data.json", (err, data) => {
+    if (err) {
+      res.send("Error occured while fetching random data!");
+    } else {
+      const allData = JSON.parse(data);
+      const filtered = allData.filter((d) => d.id !== req.query.id);
+      fs.writeFile("data.json", JSON.stringify(filtered), () => {
+        res.send("User deleted successfully!");
+      });
+    }
+  });
 };
