@@ -57,7 +57,24 @@ module.exports.updateUser = (req, res, next) => {
   });
 };
 module.exports.updateMultipleUser = (req, res, next) => {
-  return res.send("Updated multiple user!");
+  // console.log(req.body);
+  fs.readFile("data.json", (err, data) => {
+    if (err) {
+      return res.send("error occured!");
+    } else {
+      const allData = JSON.parse(data);
+      let updatedData = [];
+      for (let maindata of allData) {
+        for (let newData of req.body) {
+          if (maindata.id == newData.id) {
+            maindata = newData;
+          }
+        }
+        updatedData.push(maindata);
+      }
+      return res.send(updatedData);
+    }
+  });
 };
 module.exports.deleteUser = (req, res, next) => {
   console.log(req.query.id);
