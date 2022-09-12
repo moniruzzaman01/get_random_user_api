@@ -42,28 +42,32 @@ module.exports.saveUser = (req, res, next) => {
   });
 };
 module.exports.updateUser = (req, res, next) => {
-  fs.readFile("data.json", (err, data) => {
-    if (err) {
-      return res.send("Error occured while fetching random data!");
-    } else {
-      const allData = JSON.parse(data);
-      const filtered = allData.filter((d) => d.id != req.body.id);
-      let find = allData.find((d) => d.id == req.body.id);
-      find = req.body;
-      const updatedData = [...filtered, find];
-      updatedData.sort((a, b) => a.id - b.id);
-      fs.writeFile("data.json", JSON.stringify(updatedData), (err) => {
-        if (err) {
-          return res.send("error occured!");
-        } else {
-          return res.send("User updated!");
-        }
-      });
-    }
-  });
+  if (req.body.id) {
+    fs.readFile("data.json", (err, data) => {
+      if (err) {
+        return res.send("Error occured while fetching random data!");
+      } else {
+        const allData = JSON.parse(data);
+        const filtered = allData.filter((d) => d.id != req.body.id);
+        let find = allData.find((d) => d.id == req.body.id);
+        find = req.body;
+        const updatedData = [...filtered, find];
+        updatedData.sort((a, b) => a.id - b.id);
+        fs.writeFile("data.json", JSON.stringify(updatedData), (err) => {
+          if (err) {
+            return res.send("error occured!");
+          } else {
+            return res.send("User updated!");
+          }
+        });
+      }
+    });
+  } else {
+    return res.send("Please provide a user!");
+  }
 };
 module.exports.updateMultipleUser = (req, res, next) => {
-  // console.log(req.body);
+  console.log(req.body);
   fs.readFile("data.json", (err, data) => {
     if (err) {
       return res.send("error occured!");
