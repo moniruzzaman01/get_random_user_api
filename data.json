@@ -16,14 +16,6 @@
     "photoUrl": ""
   },
   {
-    "id": "2",
-    "gender": "male",
-    "name": "Rakib",
-    "contract": true,
-    "address": "Rangpur",
-    "photoUrl": ""
-  },
-  {
     "id": "3",
     "gender": "male",
     "name": "Tonmoy",

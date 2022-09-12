@@ -91,16 +91,23 @@ module.exports.updateMultipleUser = (req, res, next) => {
   }
 };
 module.exports.deleteUser = (req, res, next) => {
-  console.log(req.query.id);
-  fs.readFile("data.json", (err, data) => {
-    if (err) {
-      return res.send("Error occured while fetching random data!");
-    } else {
-      const allData = JSON.parse(data);
-      const filtered = allData.filter((d) => d.id !== req.query.id);
-      fs.writeFile("data.json", JSON.stringify(filtered), () => {
-        return res.send("User deleted successfully!");
-      });
-    }
-  });
+  if (req.body.id) {
+    fs.readFile("data.json", (err, data) => {
+      if (err) {
+        return res.send("Error occured while fetching random data!");
+      } else {
+        const allData = JSON.parse(data);
+        if (allData.find((d) => d.id == req.body.id)) {
+          const filtered = allData.filter((d) => d.id !== req.body.id);
+          fs.writeFile("data.json", JSON.stringify(filtered), () => {
+            return res.send("User deleted successfully!");
+          });
+        } else {
+          return res.send("Please provide a valid id!");
+        }
+      }
+    });
+  } else {
+    return res.send("Please enter an id!");
+  }
 };
