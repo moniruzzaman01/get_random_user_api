@@ -67,24 +67,28 @@ module.exports.updateUser = (req, res, next) => {
   }
 };
 module.exports.updateMultipleUser = (req, res, next) => {
-  console.log(req.body);
-  fs.readFile("data.json", (err, data) => {
-    if (err) {
-      return res.send("error occured!");
-    } else {
-      const allData = JSON.parse(data);
-      let updatedData = [];
-      for (let maindata of allData) {
-        for (let newData of req.body) {
-          if (maindata.id == newData.id) {
-            maindata = newData;
+  // console.log(req.body);
+  if (req.body.length) {
+    fs.readFile("data.json", (err, data) => {
+      if (err) {
+        return res.send("error occured!");
+      } else {
+        const allData = JSON.parse(data);
+        let updatedData = [];
+        for (let maindata of allData) {
+          for (let newData of req.body) {
+            if (maindata.id == newData.id) {
+              maindata = newData;
+            }
           }
+          updatedData.push(maindata);
         }
-        updatedData.push(maindata);
+        return res.send("Multiple user updated successfully!");
       }
-      return res.send(updatedData);
-    }
-  });
+    });
+  } else {
+    return res.send("Please provide multiple user form of array of object!");
+  }
 };
 module.exports.deleteUser = (req, res, next) => {
   console.log(req.query.id);
