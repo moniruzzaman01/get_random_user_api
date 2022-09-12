@@ -86,5 +86,13 @@
     "contract": true,
     "address": "Sylhet",
     "photoUrl": ""
+  },
+  {
+    "id": "12",
+    "gender": "male",
+    "name": "akash",
+    "contract": true,
+    "address": "Rangpur",
+    "photoUrl": ""
   }
 ]

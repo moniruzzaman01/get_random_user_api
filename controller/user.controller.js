@@ -29,17 +29,31 @@ module.exports.getAllUser = (req, res, next) => {
   });
 };
 module.exports.saveUser = (req, res, next) => {
-  fs.readFile("data.json", (err, data) => {
-    if (err) {
-      return res.send("Error occured while fetching random data!");
-    } else {
-      const allData = JSON.parse(data);
-      allData.push(req.body);
-      fs.writeFile("data.json", JSON.stringify(allData), () => {
-        return res.send("New user saved successfully!");
-      });
-    }
-  });
+  if (
+    req.body &&
+    req.body.name &&
+    req.body.id &&
+    req.body.gender &&
+    req.body.contract &&
+    req.body.photoUrl &&
+    req.body.address
+  ) {
+    fs.readFile("data.json", (err, data) => {
+      if (err) {
+        return res.send("Error occured while fetching random data!");
+      } else {
+        const allData = JSON.parse(data);
+        allData.push(req.body);
+        fs.writeFile("data.json", JSON.stringify(allData), () => {
+          return res.send("New user saved successfully!");
+        });
+      }
+    });
+  } else {
+    return res.send(
+      "Please provide an user with these properties 'gender' 'name' 'contract' 'address' 'photoUrl'"
+    );
+  }
 };
 module.exports.updateUser = (req, res, next) => {
   if (req.body.id) {
@@ -67,7 +81,6 @@ module.exports.updateUser = (req, res, next) => {
   }
 };
 module.exports.updateMultipleUser = (req, res, next) => {
-  // console.log(req.body);
   if (req.body.length) {
     fs.readFile("data.json", (err, data) => {
       if (err) {
