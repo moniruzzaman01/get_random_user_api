@@ -14,11 +14,17 @@ module.exports.getRandomUser = (req, res, next) => {
   });
 };
 module.exports.getAllUser = (req, res, next) => {
+  const limit = req.query.limit;
   fs.readFile("data.json", (err, data) => {
+    const allData = JSON.parse(data);
     if (err) {
       return res.send("Error occured while fetching all data!");
     } else {
-      return res.send(data);
+      if (limit && allData.length > limit) {
+        return res.send(allData.slice(0, limit));
+      } else {
+        return res.send(data);
+      }
     }
   });
 };
